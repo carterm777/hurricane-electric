@@ -1,0 +1,113 @@
+/* ── Our Story — Single-Column Long-Form / Dark Cinematic Narrative Band ────
+   The page's low point in the tonal rhythm, immediately before the cream
+   Coverage band. Progressive Reveal Scrub never takes a paragraph below 0.45
+   opacity — a scrub that fades content to nothing reads as a rendering fault,
+   not as motion.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.story {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  --section-y: clamp(4rem, 6.5vw, 7.5rem);
+}
+.story::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 220px;
+  background: linear-gradient(180deg, rgb(34 52 74 / 0.45), transparent);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.story-inner { display: grid; gap: var(--s-7); }
+.story-head { max-inline-size: 28rem; }
+
+.story-body { display: grid; gap: var(--s-5); }
+.story-p {
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-loose);
+  color: var(--on-dark);
+  opacity: calc(0.62 + 0.38 * var(--scrub, 1));
+  transform: translateY(calc((1 - var(--scrub, 1)) * 8px));
+  will-change: opacity, transform;
+}
+.story-p::first-letter { }
+
+.story-quote {
+  position: relative;
+  margin: var(--s-4) 0 0;
+  padding: var(--s-6) 0 0 var(--s-7);
+  border-block-start: 1px solid var(--rule);
+}
+.story-quote::before {
+  content: '“';
+  position: absolute;
+  inset-block-start: var(--s-4);
+  inset-inline-start: -6px;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--rule-accent);
+}
+.story-quote p {
+  font-family: var(--font-display);
+  font-size: var(--fs-quote);
+  font-weight: var(--w-light);
+  line-height: 1.34;
+  letter-spacing: var(--tr-tight);
+  color: var(--on-dark-hi);
+  text-wrap: balance;
+}
+.story-quote cite {
+  display: block;
+  margin-block-start: var(--s-4);
+  font-style: normal;
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semi);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+  color: var(--brand-accent);
+}
+
+/* Image as Section Divider */
+.story-band {
+  position: relative;
+  margin: clamp(3rem, 5vw, 5rem) 0 0;
+  inline-size: 100%;
+}
+.story-band-img {
+  inline-size: 100%;
+  block-size: clamp(220px, 34vw, 420px);
+  object-fit: cover;
+  object-position: center 42%;
+}
+.story-band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(10 14 19 / 0.55), rgb(10 14 19 / 0.15) 45%, rgb(10 14 19 / 0.72));
+  pointer-events: none;
+}
+.story-band-cap {
+  position: absolute;
+  inset-block-end: var(--s-5);
+  inset-inline-start: 0;
+  inline-size: 100%;
+  z-index: 1;
+  font-size: var(--fs-fine);
+  color: var(--on-dark-mute);
+  text-align: center;
+  padding-inline: var(--gutter);
+}
+
+@media (max-width: 900px) {
+  .story-p { opacity: 1; transform: none; }
+  .story-quote { padding-inline-start: var(--s-6); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-p { opacity: 1 !important; transform: none !important; }
+}

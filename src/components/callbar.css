@@ -1,0 +1,54 @@
+/* ── Mobile sticky call-only bar — Sticky Bar Slide-In on Scroll Threshold ── */
+
+@keyframes callbar-in {
+  from { opacity: 0; transform: translate3d(0, 100%, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+.callbar {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 70;
+  padding: var(--s-3) var(--gutter) calc(var(--s-3) + env(safe-area-inset-bottom, 0px));
+  background: rgb(10 14 19 / 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-block-start: 1px solid var(--rule-accent);
+  animation: callbar-in 380ms var(--ease-out-quart) both;
+}
+.callbar-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  inline-size: 100%;
+  padding: 0.72rem var(--s-4);
+  border-radius: var(--r-sm);
+  background: var(--brand-accent);
+  color: var(--brand-dark);
+  box-shadow: var(--e-2);
+}
+.callbar-icon { display: grid; place-items: center; flex: none; }
+.callbar-icon .lucide { width: var(--icon); height: var(--icon); }
+.callbar-text { display: grid; line-height: 1.1; }
+.callbar-lead {
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semi);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+.callbar-num {
+  font-family: var(--font-display);
+  font-size: var(--fs-body);
+  font-weight: var(--w-semi);
+  letter-spacing: var(--tr-tight);
+  margin-block-start: 2px;
+}
+
+@media (min-width: 901px) { .callbar { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .callbar { animation: none !important; }
+}

@@ -1,0 +1,114 @@
+/* ── Trust Badges Banner — Dark Framed Credential Panel ────────────────────
+   The entry's premium note is followed literally: a thin brand-accent hairline
+   across the top edge rather than a hard rectangle, and a brushed-steel
+   surface at 5% so the panel is a material rather than a flat fill.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.trust { --section-y: clamp(3rem, 4.4vw, 4.5rem); }
+
+.trust-panel {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(1.75rem, 3vw, 2.75rem) clamp(1.25rem, 3vw, 3rem);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  background:
+    linear-gradient(150deg, rgb(34 52 74 / 0.55), rgb(10 14 19 / 0.30));
+  overflow: hidden;
+}
+.trust-rule {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--brand-accent) 22%,
+    var(--brand-accent) 78%,
+    transparent
+  );
+  z-index: 2;
+}
+.trust-tex {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  opacity: 0.05;
+  mix-blend-mode: screen;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.trust-row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.4vw, 2.5rem);
+}
+.trust-cell { min-inline-size: 0; }
+.trust-cell + .trust-cell .trust-badge {
+  border-inline-start: 1px solid var(--rule);
+  padding-inline-start: clamp(1.25rem, 2.4vw, 2.5rem);
+}
+
+.trust-badge {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-4);
+  block-size: 100%;
+}
+/* One identical 44px optical box for all four icons */
+.trust-icon {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  flex: none;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--rule-accent);
+  background: var(--accent-wash-soft);
+  color: var(--brand-accent);
+}
+.trust-icon .lucide {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+  stroke-width: var(--icon-stroke);
+}
+.trust-text { display: grid; gap: 4px; min-inline-size: 0; }
+.trust-label {
+  font-family: var(--font-display);
+  font-size: var(--fs-fine);
+  font-weight: var(--w-med);
+  line-height: 1.32;
+  letter-spacing: var(--tr-tight);
+  color: var(--on-dark-hi);
+}
+.trust-note {
+  font-size: var(--fs-micro);
+  line-height: 1.4;
+  color: var(--on-dark-faint);
+}
+
+@media (max-width: 980px) {
+  .trust-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-6); }
+  .trust-cell + .trust-cell .trust-badge { border-inline-start: 0; padding-inline-start: 0; }
+  .trust-cell:nth-child(n + 3) .trust-badge {
+    border-block-start: 1px solid var(--rule);
+    padding-block-start: var(--s-6);
+  }
+}
+
+@media (max-width: 560px) {
+  .trust-row { grid-template-columns: minmax(0, 1fr); gap: var(--s-5); }
+  .trust-cell:nth-child(n + 2) .trust-badge {
+    border-block-start: 1px solid var(--rule);
+    padding-block-start: var(--s-5);
+  }
+  .trust-cell:nth-child(n + 3) .trust-badge { padding-block-start: var(--s-5); }
+  .trust-icon { inline-size: 38px; block-size: 38px; }
+  .trust-icon .lucide { width: var(--icon); height: var(--icon); }
+}

@@ -1,0 +1,209 @@
+/* ── Motion primitives ──────────────────────────────────────────────────────
+   Techniques from references/animation-and-motion-richness.md, expressed as
+   data-attribute states so JSX stays declarative. Distances and durations here
+   are the repo's stated defaults; override them per site through the custom
+   properties below rather than rewriting the rules.
+
+   Premium motion is confident and unhurried: cubic/quart ease-out, 600–1000ms
+   entrances, 80–150ms sibling stagger. Never elastic, never back-eased.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:    cubic-bezier(0.65, 0, 0.35, 1);
+
+  --reveal-rise: 28px;      /* Staggered Rise: 24–32px */
+  --reveal-dur: 640ms;      /* entrance duration */
+  --reveal-dur-slow: 820ms; /* clip / settle */
+  --reveal-delay: 0ms;
+  --hover-dur: 260ms;       /* Magnetic Lift: 250–300ms */
+}
+
+/* ── Staggered Rise ─────────────────────────────────────────────────────── */
+[data-reveal='rise'] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-rise), 0);
+  transition:
+    opacity var(--reveal-dur) var(--ease-out-cubic) var(--reveal-delay),
+    transform var(--reveal-dur) var(--ease-out-cubic) var(--reveal-delay);
+  will-change: opacity, transform;
+}
+
+/* ── Plain fade, for content where movement would be noise ──────────────── */
+[data-reveal='fade'] {
+  opacity: 0;
+  transition: opacity var(--reveal-dur-slow) var(--ease-out-cubic) var(--reveal-delay);
+}
+
+/* ── Clip Reveal — 700–900ms, ease-out-quart, mask eased apart from opacity */
+[data-reveal='clip'] {
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transition:
+    clip-path var(--reveal-dur-slow) var(--ease-out-quart) var(--reveal-delay),
+    opacity calc(var(--reveal-dur-slow) * 0.5) linear var(--reveal-delay);
+  will-change: clip-path, opacity;
+}
+
+/* ── Horizontal wipe variant, for rules and bands ───────────────────────── */
+[data-reveal='wipe'] {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--reveal-dur-slow) var(--ease-out-quart) var(--reveal-delay);
+  will-change: clip-path;
+}
+
+/* ── Depth Settle — scale 1.04→1, blur 4px→0, 800ms ─────────────────────── */
+[data-reveal='settle'] {
+  opacity: 0;
+  transform: scale(1.04);
+  filter: blur(4px);
+  transition:
+    opacity var(--reveal-dur-slow) var(--ease-out-cubic) var(--reveal-delay),
+    transform var(--reveal-dur-slow) var(--ease-out-cubic) var(--reveal-delay),
+    filter var(--reveal-dur-slow) var(--ease-out-cubic) var(--reveal-delay);
+  will-change: opacity, transform, filter;
+}
+
+/* ── Video/Image Focus Pull — blur 6px→0, 700ms, no scale change ─────────── */
+[data-reveal='focus'] {
+  opacity: 0;
+  filter: blur(6px);
+  transition:
+    opacity 700ms var(--ease-out-cubic) var(--reveal-delay),
+    filter 700ms var(--ease-out-cubic) var(--reveal-delay);
+  will-change: opacity, filter;
+}
+
+/* ── Sequential Line Draw / Bordered Frame Draw ─────────────────────────── */
+[data-reveal='draw'] {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 620ms var(--ease-out-quart) var(--reveal-delay);
+}
+[data-reveal='draw-y'] {
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 620ms var(--ease-out-quart) var(--reveal-delay);
+}
+
+/* SVG stroke draw — set --draw-len to the path length in the component. */
+[data-reveal='stroke'] {
+  stroke-dasharray: var(--draw-len, 1000);
+  stroke-dashoffset: var(--draw-len, 1000);
+  transition: stroke-dashoffset 640ms var(--ease-out-quart) var(--reveal-delay);
+}
+
+/* ── Rest state ─────────────────────────────────────────────────────────────
+   clip-path and stroke-dashoffset are reset only on the techniques that set
+   them. Applying `clip-path: inset(0)` to everything would silently clip drop
+   shadows and any decoration overflowing a revealed element's box. */
+[data-in='true'][data-reveal],
+[data-in='true'] [data-reveal] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  /* Release the compositor hint; left set, every revealed element stays
+     promoted for the life of the page and stops painting far down a long one. */
+  will-change: auto;
+}
+[data-in='true'][data-reveal='clip'],
+[data-in='true'] [data-reveal='clip'] { clip-path: inset(0 0 0 0); }
+[data-in='true'][data-reveal='wipe'],
+[data-in='true'] [data-reveal='wipe'] { clip-path: inset(0 0 0 0); }
+[data-in='true'][data-reveal='stroke'],
+[data-in='true'] [data-reveal='stroke'] { stroke-dashoffset: 0; }
+[data-in='true'] [data-reveal='draw'],
+[data-in='true'][data-reveal='draw'] { transform: scaleX(1); }
+[data-in='true'] [data-reveal='draw-y'],
+[data-in='true'][data-reveal='draw-y'] { transform: scaleY(1); }
+
+/* ── Weighted Word Reveal — 400–500ms per word, 60–90ms stagger ─────────── */
+[data-word-reveal] .wr-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+[data-word-reveal] .wr-inner {
+  display: inline-block;
+  transform: translate3d(0, 100%, 0);
+  opacity: 0;
+  transition:
+    transform 620ms var(--ease-out-quart) var(--reveal-delay),
+    opacity 460ms var(--ease-out-cubic) var(--reveal-delay);
+}
+[data-word-reveal][data-in='true'] .wr-inner {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+/* ── Cursor-Reactive Glow — opacity fades in over 300ms on pointer enter ─── */
+[data-glow-surface] { position: relative; isolation: isolate; }
+[data-glow-surface]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out-cubic);
+  background: radial-gradient(
+    var(--glow-size, 340px) circle at var(--mx, 50%) var(--my, 50%),
+    var(--glow-color, rgb(255 255 255 / 0.14)),
+    transparent 68%
+  );
+  z-index: 1;
+}
+[data-glow-surface][data-glow='on']::after { opacity: 1; }
+
+/* ── Load-in sequence, for above-the-fold content that must not wait for
+      a scroll trigger it will never receive. ──────────────────────────────── */
+@keyframes kit-load-rise {
+  from { opacity: 0; transform: translate3d(0, var(--reveal-rise), 0); }
+  to   { opacity: 1; transform: none; }
+}
+[data-load] {
+  opacity: 0;
+  animation: kit-load-rise var(--reveal-dur-slow) var(--ease-out-quart) var(--reveal-delay) forwards;
+}
+
+/* ── Slow Ambient Drift — 8–20s loop, low amplitude, felt not seen ──────── */
+@keyframes kit-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(1.5%, -1.8%, 0) scale(1.04); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+[data-ambient] {
+  animation: kit-drift var(--ambient-dur, 16s) ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ── Focus visibility floor ─────────────────────────────────────────────── */
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-ring, currentColor);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Reduced motion: every technique above collapses to its final state ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal],
+  [data-load] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  [data-word-reveal] .wr-inner { opacity: 1 !important; transform: none !important; }
+  [data-ambient] { animation: none !important; }
+  [data-glow-surface]::after { opacity: 0 !important; }
+}

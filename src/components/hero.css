@@ -1,0 +1,170 @@
+/* ── Hero — Full-Bleed Image Hero / Gradient Scrim / Parallax Scroll Depth ──
+   The scrim is deliberately heavy. `street-dusk` is kept as texture and lit
+   windows rather than as a photograph, so the amber reads as light on a dark
+   street — which is the brand's whole thesis. Legibility over the left column
+   is the other half of the reason: the photo has no natural dark zone there.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  background: var(--field-deep);
+  padding-block-start: calc(var(--header-h) + var(--s-8));
+  padding-block-end: var(--s-10);
+  min-block-size: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: clip;
+}
+
+.hero-bed { position: absolute; inset: 0; z-index: 0; overflow: clip; }
+.hero-bed-inner { position: absolute; inset: -12% 0; will-change: transform; }
+.hero-photo {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 50% 62%;
+}
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(100deg, rgb(10 14 19 / 0.93) 4%, rgb(16 22 29 / 0.80) 38%, rgb(16 22 29 / 0.46) 72%, rgb(10 14 19 / 0.58) 100%),
+    linear-gradient(180deg, var(--scrim-top) 0%, transparent 38%, rgb(10 14 19 / 0.80) 100%);
+}
+/* Slow Ambient Drift — behind content, felt not seen */
+.hero-glow {
+  position: absolute;
+  inset-block-start: -18%;
+  inset-inline-end: -12%;
+  inline-size: 62vw;
+  block-size: 62vw;
+  max-inline-size: 900px;
+  max-block-size: 900px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(232 163 61 / 0.16), transparent 62%);
+  filter: blur(28px);
+}
+/* Raw Industrial Grid Overlay, at the threshold of visibility */
+.hero-grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgb(244 241 234 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(244 241 234 / 0.045) 1px, transparent 1px);
+  background-size: 96px 96px;
+  mask-image: radial-gradient(120% 90% at 12% 40%, #000 0%, transparent 72%);
+  -webkit-mask-image: radial-gradient(120% 90% at 12% 40%, #000 0%, transparent 72%);
+}
+
+/* Grid — align-items:start puts the eyebrow's top edge and the widget's top
+   edge on the same line, which the brief requires. */
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.16fr) minmax(340px, 0.84fr);
+  align-items: start;
+  gap: clamp(2rem, 4.5vw, 4.5rem);
+  inline-size: min(100% - (var(--gutter) * 2), var(--shell-wide));
+}
+
+.hero-copy { display: grid; gap: 0; }
+.hero-eyebrow { margin-block-end: var(--s-4); }
+
+.hero-h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--w-semi);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tighter);
+  color: var(--on-dark-hi);
+  max-inline-size: 46rem;
+  text-wrap: balance;
+  text-shadow: 0 2px 34px rgb(10 14 19 / 0.65);
+}
+
+.hero-sub {
+  margin-block-start: var(--s-5);
+  max-inline-size: 54ch;
+  font-size: var(--fs-body-lg);
+  line-height: 1.58;
+  color: var(--on-dark);
+}
+
+.hero-badges {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-2) var(--s-4);
+  margin-block-start: var(--s-6);
+  max-inline-size: 38rem;
+}
+.hero-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding-block: var(--s-2);
+  font-size: var(--fs-fine);
+  font-weight: var(--w-med);
+  color: var(--on-dark-hi);
+  border-block-start: 1px solid var(--rule);
+  line-height: 1.25;
+}
+.hero-badge .lucide {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  color: var(--brand-accent);
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-block-start: var(--s-6);
+  flex-wrap: wrap;
+}
+
+.hero-widget { min-inline-size: 0; }
+
+/* ── Tablet ─────────────────────────────────────────────────────────────── */
+@media (max-width: 1080px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: var(--s-7); }
+  .hero-h1 { max-inline-size: 34rem; }
+  .hero-sub { max-inline-size: 62ch; }
+  .hero-widget { max-inline-size: 560px; }
+}
+
+/* ── Primary mobile breakpoint — the fold is designed here first ────────── */
+@media (max-width: 900px) {
+  .hero {
+    min-block-size: 0;
+    padding-block-start: calc(var(--header-h) + var(--s-3));
+    padding-block-end: var(--s-8);
+    display: block;
+  }
+  .hero-grid { gap: var(--s-4); }
+  .hero-eyebrow { margin-block-end: var(--s-3); font-size: var(--fs-micro); }
+  .hero-eyebrow::before { inline-size: 18px; }
+  .hero-h1 { max-inline-size: none; }
+  .hero-sub {
+    margin-block-start: var(--s-3);
+    font-size: var(--fs-fine);
+    line-height: 1.5;
+  }
+  .hero-badges {
+    margin-block-start: var(--s-3);
+    gap: 0 var(--s-3);
+    max-inline-size: none;
+  }
+  .hero-badge { font-size: var(--fs-micro); gap: var(--s-2); padding-block: 6px; }
+  .hero-badge .lucide { width: 14px; height: 14px; }
+  .hero-ctas { margin-block-start: var(--s-3); gap: var(--s-2); flex-wrap: nowrap; }
+  .hero-call { flex: 1.45; --btn-x: 0.6rem; --btn-y: 0.8rem; font-size: var(--fs-micro); }
+  .hero-secondary { flex: 1; --btn-x: 0.6rem; --btn-y: 0.8rem; font-size: var(--fs-micro); }
+  .hero-widget { max-inline-size: none; }
+  .hero-grid-lines { background-size: 60px 60px; }
+}
+
+@media (max-width: 360px) {
+  .hero-call, .hero-secondary { letter-spacing: 0.06em; }
+}

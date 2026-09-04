@@ -1,0 +1,160 @@
+/* ── Hurricane Electric — design tokens ─────────────────────────────────────
+   Every colour, type step, space step, radius, shadow and duration lives here.
+   Component CSS references these variables and never a raw value.
+
+   The five brand colours and the two typefaces are fixed by the brief. What is
+   designed here is the ratio between them: the navy and its shades carry the
+   page; the cream is spent twice, as inset bands; the amber never fills an area
+   larger than a button — it is a hairline, a tick, a star, a map node.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Brand, fixed ──────────────────────────────────────────────────────── */
+  --brand-primary: #1B2A38;   /* deep navy-charcoal */
+  --brand-secondary: #3E5C76; /* slate blue */
+  --brand-accent: #E8A33D;    /* warm amber — the lighting specialty */
+  --brand-dark: #10161D;      /* near-black */
+  --brand-light: #F4F1EA;     /* warm cream */
+
+  /* ── Surface ladder — shades and tints of the five above, nothing new ──── */
+  --field-void: #0A0E13;
+  --field-deep: #10161D;
+  --field: #1B2A38;
+  --field-raised: #22344A;
+  --field-slate: #3E5C76;
+  --field-cream: #F4F1EA;
+  --field-cream-deep: #E9E4D9;
+
+  /* ── Ink ───────────────────────────────────────────────────────────────── */
+  --on-dark-hi: #F4F1EA;
+  --on-dark: rgb(244 241 234 / 0.80);
+  --on-dark-mute: rgb(244 241 234 / 0.60);
+  --on-dark-faint: rgb(244 241 234 / 0.42);
+  --on-light-hi: #10161D;
+  --on-light: rgb(16 22 29 / 0.76);
+  --on-light-mute: rgb(16 22 29 / 0.56);
+  --on-light-faint: rgb(16 22 29 / 0.38);
+
+  /* ── Lines, glass, glow ────────────────────────────────────────────────── */
+  --rule: rgb(244 241 234 / 0.11);
+  --rule-strong: rgb(244 241 234 / 0.20);
+  --rule-light: rgb(16 22 29 / 0.13);
+  --rule-light-strong: rgb(16 22 29 / 0.24);
+  --rule-accent: rgb(232 163 61 / 0.55);
+  --accent-wash: rgb(232 163 61 / 0.12);
+  --accent-wash-soft: rgb(232 163 61 / 0.06);
+  --accent-glow: rgb(232 163 61 / 0.18);
+  --slate-wash: rgb(62 92 118 / 0.20);
+  --glass: rgb(62 92 118 / 0.16);
+  --glass-strong: rgb(62 92 118 / 0.30);
+  --glass-edge: rgb(244 241 234 / 0.14);
+  --scrim-top: rgb(10 14 19 / 0.55);
+  --scrim-mid: rgb(27 42 56 / 0.86);
+  --scrim-deep: rgb(10 14 19 / 0.96);
+  --focus-ring: #E8A33D;
+
+  /* ── Type roles ────────────────────────────────────────────────────────── */
+  --font-display: 'Lexend Deca', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-body: 'Public Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  --w-light: 300;
+  --w-book: 400;
+  --w-med: 500;
+  --w-semi: 600;
+  --w-bold: 700;
+
+  /* ── Type scale ────────────────────────────────────────────────────────── */
+  --fs-micro: 0.6875rem;
+  --fs-label: 0.75rem;
+  --fs-fine: 0.8125rem;
+  --fs-sm: 0.875rem;
+  --fs-body: 1rem;
+  --fs-body-lg: clamp(1.0625rem, 0.35vw + 0.98rem, 1.1875rem);
+  --fs-lead: clamp(1.0625rem, 0.6vw + 0.93rem, 1.375rem);
+  --fs-h4: clamp(1rem, 0.3vw + 0.95rem, 1.1875rem);
+  --fs-h3: clamp(1.125rem, 0.55vw + 1.02rem, 1.4375rem);
+  --fs-h2: clamp(1.75rem, 1.9vw + 1.15rem, 2.75rem);
+  --fs-h1: clamp(1.875rem, 2.9vw + 0.9rem, 3.125rem);
+  --fs-display: clamp(2.75rem, 4.4vw + 1.3rem, 4.5rem);
+  --fs-quote: clamp(1.25rem, 1.5vw + 0.85rem, 2rem);
+
+  /* ── Tracking + leading ────────────────────────────────────────────────── */
+  --tr-eyebrow: 0.19em;
+  --tr-label: 0.13em;
+  --tr-tight: -0.022em;
+  --tr-tighter: -0.032em;
+  --lh-tight: 1.06;
+  --lh-snug: 1.18;
+  --lh-heading: 1.24;
+  --lh-body: 1.62;
+  --lh-loose: 1.72;
+
+  /* ── Space scale ───────────────────────────────────────────────────────── */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.25rem;
+  --s-6: 1.5rem;
+  --s-7: 2rem;
+  --s-8: 2.5rem;
+  --s-9: 3rem;
+  --s-10: 4rem;
+  --s-11: 5rem;
+  --s-12: 6.5rem;
+  --s-13: 8rem;
+
+  /* ── Section rhythm (consumed by base.css) ─────────────────────────────── */
+  --section-y: clamp(3.5rem, 5.2vw, 6.5rem);
+  --gutter: 1.5rem;
+  --shell: 1200px;
+  --shell-narrow: 780px;
+  --shell-wide: 1380px;
+  --header-h: 92px;
+
+  /* ── Radii ─────────────────────────────────────────────────────────────── */
+  --r-xs: 2px;
+  --r-sm: 5px;
+  --r-md: 9px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+  --r-pill: 999px;
+
+  /* ── Elevation ─────────────────────────────────────────────────────────── */
+  --e-1: 0 1px 2px rgb(10 14 19 / 0.30);
+  --e-2: 0 12px 32px -14px rgb(10 14 19 / 0.60);
+  --e-3: 0 28px 64px -26px rgb(10 14 19 / 0.72);
+  --e-4: 0 48px 96px -34px rgb(10 14 19 / 0.82);
+  --e-glass:
+    inset 0 1px 0 rgb(244 241 234 / 0.13),
+    0 34px 80px -30px rgb(10 14 19 / 0.86);
+  --e-light: 0 18px 44px -26px rgb(16 22 29 / 0.34);
+
+  /* ── Icons ─────────────────────────────────────────────────────────────── */
+  --icon: 20px;
+  --icon-sm: 16px;
+  --icon-lg: 26px;
+  --icon-xl: 34px;
+  --icon-stroke: 1.5;
+
+  /* ── Duration ──────────────────────────────────────────────────────────── */
+  --d-fast: 160ms;
+  --d-base: 240ms;
+  --d-slow: 420ms;
+  --d-entrance: 680ms;
+  --d-cinematic: 900ms;
+
+  /* ── Motion overrides — unhurried and technical: short rise, long dur. ─── */
+  --reveal-rise: 22px;
+  --reveal-dur: 700ms;
+  --reveal-dur-slow: 880ms;
+  --hover-dur: 260ms;
+}
+
+@media (max-width: 860px) {
+  :root {
+    --header-h: 78px;
+    --gutter: 1.25rem;
+    --section-y: clamp(3rem, 9vw, 4.25rem);
+  }
+}

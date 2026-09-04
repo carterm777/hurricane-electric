@@ -1,0 +1,68 @@
+/* ── Final CTA — Full-Width CTA Banner / Dark Cinematic CTA Background ──────
+   Flush against the footer: the footer's fade-to-dark gradient starts where
+   this band's scrim ends, so the ask and the sitemap read as one closing unit
+   rather than two stacked slabs.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.cta {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding-block: clamp(4.5rem, 8vw, 8rem);
+  background: var(--field-void);
+}
+.cta-bed { position: absolute; inset: 0; z-index: 0; overflow: clip; }
+.cta-photo {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.08);
+}
+.cta-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(100deg, rgb(10 14 19 / 0.95) 22%, rgb(27 42 56 / 0.82) 62%, rgb(10 14 19 / 0.9)),
+    linear-gradient(180deg, rgb(10 14 19 / 0.7), transparent 40%, rgb(10 14 19 / 0.85));
+}
+
+.cta-inner { position: relative; z-index: 1; }
+
+.cta-card {
+  max-inline-size: 44rem;
+  display: grid;
+  gap: var(--s-4);
+  padding: clamp(1.75rem, 3.4vw, 3rem);
+  border-radius: var(--r-md);
+  border: 1px solid var(--glass-edge);
+  border-block-start: 1px solid var(--rule-accent);
+  background: linear-gradient(160deg, rgb(62 92 118 / 0.24), rgb(10 14 19 / 0.62));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--e-glass);
+}
+.cta-h2 { max-inline-size: 20ch; }
+.cta-sub {
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body);
+  color: var(--on-dark);
+  max-inline-size: 46ch;
+}
+.cta-actions {
+  display: flex;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+  margin-block-start: var(--s-2);
+}
+.cta-reassure {
+  margin-block-start: var(--s-2);
+  padding-block-start: var(--s-4);
+  border-block-start: 1px solid var(--rule);
+  max-inline-size: 52ch;
+}
+
+@media (max-width: 620px) {
+  .cta-actions { flex-direction: column; align-items: stretch; }
+  .cta-call, .cta-text { inline-size: 100%; }
+}

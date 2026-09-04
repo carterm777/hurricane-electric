@@ -1,0 +1,133 @@
+/* ── Why Us — Single Statement + Supporting Points / Icon Line-Art ─────────
+   The statement runs full width, then the framed photo and the four
+   supporting points sit side by side so the two columns finish together.
+   Framed or Bordered Photo Insert from the richness file: an amber bracket
+   offset from the photo, drawn in after the image settles.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.why { position: relative; }
+.why::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 1px;
+  background: var(--rule);
+}
+
+.why-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: end;
+  margin-block-end: clamp(2.5rem, 4.5vw, 4rem);
+  padding-block-end: clamp(2rem, 3.5vw, 3rem);
+  border-block-end: 1px solid var(--rule);
+}
+.why-head { max-inline-size: 34rem; }
+.why-lead { max-inline-size: 34rem; color: var(--on-dark); }
+
+.why-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.why-figure { position: relative; margin: 0; }
+.why-frame {
+  position: absolute;
+  inset-block-start: -14px;
+  inset-inline-start: -14px;
+  inline-size: 58%;
+  block-size: 1px;
+  background: var(--brand-accent);
+  transform-origin: left center;
+}
+.why-frame::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 1px;
+  block-size: 96px;
+  background: var(--brand-accent);
+}
+.why-photo {
+  inline-size: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 40%;
+  border-radius: var(--r-sm);
+  box-shadow: var(--e-3);
+}
+.why-caption {
+  margin-block-start: var(--s-4);
+  font-size: var(--fs-fine);
+  color: var(--on-dark-faint);
+  padding-inline-start: var(--s-3);
+  border-inline-start: 1px solid var(--rule-accent);
+  line-height: 1.45;
+}
+
+/* Supporting points — line art, hairline separated, no boxes */
+.why-points { display: grid; }
+.why-point {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-5);
+  padding-block: clamp(1.5rem, 2.4vw, 2.25rem);
+  border-block-start: 1px solid var(--rule);
+}
+.why-point:first-child { border-block-start: 0; padding-block-start: 0; }
+.why-point:last-child { padding-block-end: 0; }
+
+.why-point-icon {
+  display: grid;
+  place-items: center;
+  inline-size: 48px;
+  block-size: 48px;
+  flex: none;
+  color: var(--brand-accent);
+  border-radius: var(--r-sm);
+  position: relative;
+}
+.why-point-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  transition: border-color var(--hover-dur) var(--ease-out-cubic),
+              background-color var(--hover-dur) var(--ease-out-cubic);
+}
+.why-point:hover .why-point-icon::before {
+  border-color: var(--rule-accent);
+  background: var(--accent-wash-soft);
+}
+.why-point-icon .lucide {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+  fill: none;
+}
+
+.why-point-text { display: grid; gap: var(--s-2); }
+.why-point-title { font-size: var(--fs-h4); font-weight: var(--w-semi); }
+.why-point-body {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+  color: var(--on-dark-mute);
+  max-inline-size: 48ch;
+}
+
+@media (max-width: 1000px) {
+  .why-top { grid-template-columns: minmax(0, 1fr); gap: var(--s-6); align-items: start; }
+  .why-grid { grid-template-columns: minmax(0, 1fr); gap: var(--s-8); }
+  .why-photo { aspect-ratio: 16 / 10; }
+}
+
+@media (max-width: 600px) {
+  .why-point { gap: var(--s-4); }
+  .why-point-icon { inline-size: 42px; block-size: 42px; }
+  .why-point-icon .lucide { width: var(--icon); height: var(--icon); }
+}

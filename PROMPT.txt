@@ -1,0 +1,271 @@
+You are building a one-page cold-outreach demo site in React. This needs to look like a genuinely premium, $10,000+ custom local-business build — luxurious, high-fidelity, restrained, not a template, not AI-generated. This is a redesign concept for a business that already has a live site at https://www.hurricaneelectric.ca/ — services, facts, and positioning were extracted from that page, but ALL copy below is freshly written, not reworded from the source.
+
+WORKFLOW — FOLLOW EXACTLY
+1. This project's working directory already contains a copy of the section-style-repo-animation+ folder. List it first to confirm what's there, then read front-end-design.md from its root exactly: build a token system first (but use the fonts/colors given below as fixed — don't re-derive a palette), avoid its named generic-AI-design defaults, watch CSS selector specificity so section-level and element-level classes don't cancel each other out, and take screenshots to self-critique against this brief before opening the preview.
+2. For EVERY section on this page, consult section-style-repo.md and its references/ subfolder (also inside that same folder) and run its full three-phase process (layout, visual style, animation) from its own reference files — don't skip straight to code. Use its selection log to keep real variety across sections on this page. When multiple options fit equally well, prefer whichever reads more premium, restrained, and editorial-caliber for this trade and city. Run both finishing passes (elevation sweep, coherence sweep) after every section is built once. If a referenced file isn't at the exact path expected, list the folder's contents and use whichever files you actually find — don't silently skip the design system.
+3. Build the full site locally.
+4. Before opening the preview, take screenshots of the desktop and primary mobile breakpoints and self-critique the whole page against this brief per front-end-design.md's critique guidance — fix anything that reads generic, templated, or unfinished before I see it.
+5. Open a live preview window automatically once built. Wait for review.
+6. I will request changes/fixes — make them in this same session.
+7. Do NOT deploy until I explicitly say "push and deploy."
+8. On "push and deploy": call deploy_to_vercel with target: production,
+   name: hurricane-electric (fallback to hurricane-electric-cochrane only if the
+   exact name is unavailable). Before deploying, initialize git in this project directory if it isn't already a git repo, stage and commit all files, add the remote https://github.com/carterm777/hurricane-electric (this repo already exists on GitHub, created empty), and push to its main branch.
+9. Add <meta name="robots" content="noindex, nofollow"> to every page.
+
+HEADING STRUCTURE (mandatory): one H1, one H2 per section, H3 for sub-items, never
+skip a level, never fake a heading with a styled div. Title Case all headers.
+
+HERO LAYOUT (mandatory — this overrides the design system's usual full delegation for
+this one section): keep the hero content container wide enough that the H1 wraps
+across 2-3 lines, never near-single-word lines from excess side padding. Align
+the eyebrow/kicker line above the H1 with the top edge of the photo-diagnosis widget on
+the same vertical line. Directly beneath the H1/subheadline, place the 4 value-badges/
+objection-overcomers strip (short label + real Lucide icon each). Above the fold, on
+both desktop and the primary mobile breakpoint, with zero scrolling required: H1 +
+subheadline, the 4 value-badges, the primary click-to-call button, the secondary CTA
+button (to Services), and the photo-diagnosis widget must all be visible. (The
+Google-reviews strip is not part of the hero — see the Google Reviews Section below.)
+
+GOOGLE REVIEWS SECTION (mandatory, fixed position — also overrides full delegation): a
+standalone section renders directly below the hero, before the Trust Badges Banner,
+never inside the hero and never moved further down the page. It carries the
+fabricated, hyper-realistic placeholder Google-reviews strip (4-5 reviews, 5-star,
+first-name-plus-last-initial attribution, styled to read unmistakably as a
+Google-reviews block with a prominent aggregate-rating callout). Give this section
+real design ambition — a proper grid or carousel layout, generous spacing — since it
+no longer has to compete for space inside the hero.
+
+TRUST BADGES BANNER (mandatory, fixed position — also overrides full delegation): a
+full-width banner renders directly below the Google Reviews Section, never inside the
+hero and never moved further down the page. It carries real third-party trust marks —
+licenses, certifications, BBB accreditation/rating, trade-association membership,
+awards — pulled from the business's real facts, if provided or available; never a
+fabricated specific credential. Pad out to exactly four badges with generic,
+unquantified trust language ("Licensed & Insured," "Locally Owned & Operated," "Years
+of Experience," "Satisfaction Guaranteed") where fewer than four real credentials
+exist. Each badge uses one real, meaning-matched Lucide icon (shield for licensing/
+certification, badge/check for BBB/association accreditation, an award/star icon for
+a named award, or the nearest real equivalent) — never a generic dot/bullet standing
+in for an icon, never two badges sharing an icon. Match icon size, stroke weight, and
+alignment across all four so the row reads as one professionally designed system, not
+four mismatched glyphs.
+
+IMAGES: check this project folder for a folder named "images." If it exists, use only
+those images. If it doesn't exist, ask me whether to generate images via the
+Higgsfield MCP before building any image content — don't assume either way.
+
+BUSINESS INFO
+Business Name: Hurricane Electric
+Location: Cochrane, Alberta (serving Cochrane, Calgary, and surrounding communities)
+Industry: Residential and commercial electrical contracting, with an energy-efficient
+lighting specialty
+Source: existing site — https://www.hurricaneelectric.ca/
+Extracted/decided facts summary: Confirmed on the source page's meta description:
+more than 15 years of experience, fully licensed and insured, a specialty in
+energy-efficient lighting installations for both residential and commercial
+projects, work completed to current Canadian Electrical Code, and a service area of
+Calgary, Cochrane, and surrounding communities. No specific license number, BBB
+rating, association name, financing offer, or 24/7 claim was stated on the source
+page, so none of those appear as specific facts anywhere on this build.
+Meta description (150-160 chars, local, not a copy of the hero): Licensed Cochrane
+and Calgary electricians with 15+ years of experience, specializing in
+energy-efficient lighting to current Canadian Electrical Code.
+
+BRAND IDENTITY
+Fonts: Display — Lexend Deca / Body — Public Sans  (source: extracted — single-page
+live computed-style sweep only; cross-page recheck and screenshot sanity check were
+not performed; see notes)
+Colors: Primary #1B2A38 / Secondary #3E5C76 / Accent #E8A33D / Dark #10161D / Light #F4F1EA
+  (source: invented. The live computed-style sweep for this site did not return a
+  usable topColors set, so no colors were extracted — this is a failed extraction,
+  not a soft guess, and the full palette below is invented rather than confirmed.
+  Deep navy-charcoal primary and slate-blue secondary avoid the reflex blue/yellow
+  electrician default; the warm amber accent (#E8A33D) is chosen deliberately to
+  echo the confirmed energy-efficient lighting specialty rather than a generic
+  safety-yellow bolt color.)
+Voice: Modern, precise, and energy-conscious — a shop that talks about lighting and
+  code compliance with real technical fluency, not marketing gloss. Vocabulary do's:
+  "energy-efficient," "LED retrofit," "current Canadian Electrical Code," "load,"
+  "fixture layout." Vocabulary don'ts: no rugged blue-collar slang, no vague "quality
+  service" filler, never "actually," never "under the same roof." Register: leans
+  more polished and professional than a typical blue-collar trade page, matching the
+  clean modern fonts and the technical, efficiency-focused positioning, while
+  staying first-person plural and warm rather than corporate.
+
+CONTACT INFO (real where found, placeholder clearly marked otherwise)
+Phone: [contact number not captured in the source-page scrape — placeholder] 403-555-0148
+Email: contact@hurricaneelectric.ca (placeholder — no real email was listed in the
+scrape)
+Address: Cochrane, Canada (placeholder — no street address was listed in the scrape)
+
+HEADER STRUCTURE
+Subheader: 403-555-0148 / contact@hurricaneelectric.ca / Cochrane, Canada
+Nav (centered): Home · About · Services (dropdown: Energy-Efficient Lighting
+Installation, LED Retrofits & Upgrades, Residential Electrical, Commercial
+Electrical, Panel Upgrades & Service Changes, Electrical Troubleshooting & Repair,
+Renovation Wiring, New Construction Wiring, Outdoor & Landscape Lighting, Electrical
+Inspections, Generator Hookups, EV Charger Installation, Smart Lighting & Controls)
+· Service Areas (dropdown: Cochrane, Calgary, Airdrie, Bearspaw, Springbank, Redwood
+Meadows, Rocky View County, Bragg Creek) · FAQ · Blog · Contact
+Anchor map: Services → Core Services section / Service Areas → Coverage section /
+About → Story / FAQ → FAQ / Contact → Final CTA / Blog → Footer
+Right: click-to-call button + phone icon
+Mobile: no hamburger — nav reduces to click-to-call only while scrolling
+
+FOOTER STRUCTURE (4 columns):
+1. Wordmark logo + mission statement + social icons — Mission statement: "We're a
+   licensed Cochrane electrical contractor with more than 15 years of experience,
+   known for energy-efficient lighting work built to current Canadian Electrical
+   Code. We serve homes and businesses across Cochrane, Calgary, and the surrounding
+   area."
+2. "Our Services" header + Energy-Efficient Lighting Installation, Residential
+   Electrical, Commercial Electrical, LED Retrofits & Upgrades, Electrical
+   Troubleshooting & Repair
+3. "Quick Links" header + Home, About, Services, Service Areas, FAQ, Contact
+4. Hurricane Electric, Cochrane, Canada (placeholder address), 403-555-0148
+
+CONVERSION ELEMENTS — build all of these, none functional/backend-connected:
+- Photo-diagnosis uploader in hero (image + description + name/phone, client-side
+  success state, no backend) — this is the centerpiece and this page's signature
+  element; give it the most design ambition on the page.
+- 4 value-badges/objection-overcomers directly in the hero, beneath the headline/
+  subheadline: Licensed & Insured (ShieldCheck), 15+ Years Experience (Award),
+  Energy-Efficient Lighting (Lightbulb), Code-Compliant Work (FileCheck).
+- Same primary CTA repeated at natural points down the page — one ask, several spots.
+- Click-to-call everywhere (tel:4035550148 links) + mobile sticky call-only bar.
+- Click-to-text (sms:4035550148 link) in the final CTA and footer.
+- Fabricated, hyper-realistic placeholder Google-reviews strip in its own Google
+  Reviews Section directly below the hero, never inside the hero (5 reviews, 5-star,
+  first-name-plus-last-initial attribution, each 1-2 sentences with a distinct focus,
+  styled to read as a recognizable Google-reviews block with a prominent
+  aggregate-rating callout) — label as placeholder needing real GBP reviews before
+  real launch.
+- Trust Badges Banner directly below the Google Reviews Section (Canadian Electrical
+  Code Compliant, Fully Licensed & Insured, 15+ Years in the Trade, Locally Owned &
+  Operated — the first three trace directly to the source page's meta description,
+  the fourth is generic unquantified trust language filling the fourth slot; wording
+  deliberately differs from the hero badges), each badge properly and professionally
+  iconified with a real, distinct, meaning-matched Lucide icon.
+- Reassurance microcopy beside every form.
+- Convincing non-backend success state on every form.
+No financing callout and no 24-hour/emergency messaging appear anywhere on this
+build — neither was stated on the source page.
+
+Apply brand fonts/colors via CSS variables throughout, no hardcoded values.
+
+PAGE COPY
+
+[HERO]
+Headline: Licensed Electricians Serving Cochrane & Calgary AB
+Subheadline: Licensed and insured electricians with more than 15 years of
+experience, delivering energy-efficient lighting and code-compliant electrical work
+for homes and businesses throughout Cochrane, Calgary, and the surrounding area.
+Value badges: Licensed & Insured (ShieldCheck) · 15+ Years Experience (Award) ·
+Energy-Efficient Lighting (Lightbulb) · Code-Compliant Work (FileCheck)
+
+[GOOGLE REVIEWS SECTION]
+Aggregate line: 4.9 out of 5 based on 70+ Google reviews (placeholder)
+1. Kevin O. — ★★★★★ — "Our power bill dropped noticeably after the LED retrofit.
+   Wish we'd done it years earlier."
+2. Amanda P. — ★★★★★ — "Quoted the commercial fit-out clearly and stuck to the
+   number they gave us, even with a change partway through."
+3. Ben T. — ★★★★★ — "Found and fixed a wiring issue an inspector flagged before our
+   sale closed. Fast and no drama."
+4. Lindsey W. — ★★★★★ — "Explained exactly why our old fixtures were drawing so
+   much power before recommending anything new."
+5. Cory D. — ★★★★★ — "Booked a panel upgrade and they were done in a single day,
+   cleanup included."
+(Label clearly in code comments as placeholder reviews requiring real Google
+Business Profile reviews before launch.)
+
+[TRUST BADGES BANNER]
+Canadian Electrical Code Compliant (FileCheck) · Fully Licensed & Insured
+(ShieldCheck) · 15+ Years in the Trade (Award) · Locally Owned & Operated (MapPin)
+
+[WHY US]
+1. Energy-Efficient Lighting Expertise (Lightbulb) — Lighting is where most of our
+   calls start, and we plan every install around real usage instead of just filling
+   a room with fixtures.
+2. Work Built to Code (FileCheck) — Every project, residential or commercial, is
+   completed to current Canadian Electrical Code, not just close enough to pass.
+3. 15+ Years of Field Experience (Award) — More than 15 years of hands-on electrical
+   work backs every estimate we give and every job we complete.
+4. Licensed, Insured, Accountable (ShieldCheck) — Fully licensed and insured
+   electricians handle every job, with clear communication from quote to final
+   walkthrough.
+
+[SERVICES]
+1. Energy-Efficient Lighting Installation — Fixture layouts and LED lighting plans
+   built around what a space needs, not what's easiest to install.
+2. Residential Electrical — Wiring, panel upgrades, and troubleshooting for homes
+   throughout Cochrane and the surrounding area.
+3. Commercial Electrical — Electrical installs and lighting retrofits for offices,
+   retail spaces, and commercial buildings.
+4. LED Retrofits & Upgrades — Replacing older, inefficient fixtures with LED systems
+   that cut power draw without cutting light quality.
+5. Electrical Troubleshooting & Repair — Diagnosing flickering lights, tripped
+   breakers, and wiring faults, then fixing the real cause.
+
+[SERVICE AREA / COVERAGE]
+Framing: Based in Cochrane, we take on residential and commercial electrical work
+across Cochrane, Calgary, and the communities between them.
+Towns: Cochrane, Calgary, Airdrie, Bearspaw, Springbank, Redwood Meadows, Rocky View
+County, and Bragg Creek.
+
+[OUR STORY]
+Fifteen years ago, most electrical calls in this part of Alberta were about keeping
+the lights on. Today, a good share of them are about keeping the lights on for less —
+LED retrofits, smarter fixture layouts, and lighting plans built around real usage
+instead of just filling a room with fixtures.
+
+We built our business around that shift instead of treating it as a side offering.
+Every lighting install we run, residential or commercial, gets planned the way a
+licensed electrician plans a load calculation: what the space needs, not what's
+easiest to install. The same attention carries into every other job we take on, from
+panel upgrades to full renovation wiring.
+
+Cochrane and Calgary have grown fast, and a lot of the properties we work on are
+being renovated, expanded, or brought up to current code for the first time in
+decades. We do that work the way we'd want it done in our own house — to code,
+explained clearly, and without cutting a corner that costs someone money down the
+line.
+
+[FINAL CTA]
+Headline: Ready for Electrical Work Built to Code?
+Supporting line: Call now for a licensed, energy-efficient electrical team serving
+Cochrane and Calgary.
+Action: Call 403-555-0148 or send us a text — phone number inline, tel: and sms:
+links.
+
+[FAQ]
+1. Q: Are you licensed and insured?
+   A: Yes. We're fully licensed and insured, and every job is completed to current
+   Canadian Electrical Code.
+2. Q: What makes your lighting work energy-efficient?
+   A: We plan lighting around real fixture usage and switch to LED wherever it cuts
+   power draw without cutting quality, instead of defaulting to whatever fixture is
+   easiest to install.
+3. Q: Do you work on commercial properties, or just homes?
+   A: Both. We handle residential electrical work and commercial installs and
+   retrofits, including offices and retail spaces.
+4. Q: Is your electrical work up to code?
+   A: Yes, every project is completed to current Canadian Electrical Code, whether
+   it's a small repair or a full commercial fit-out.
+5. Q: Our lights flicker every time the furnace kicks on. Is that a wiring problem?
+   A: Often, yes. Flickering tied to another appliance turning on usually points to
+   a shared circuit or a voltage drop somewhere in the wiring, and it's worth having
+   checked rather than ignored, since it can point to a bigger issue.
+6. Q: What areas do you serve?
+   A: We serve Cochrane, Calgary, Airdrie, Bearspaw, Springbank, Redwood Meadows,
+   and the surrounding Rocky View County communities.
+
+[FOOTER COPY]
+Mission statement: We're a licensed Cochrane electrical contractor with more than 15
+years of experience, known for energy-efficient lighting work built to current
+Canadian Electrical Code. We serve homes and businesses across Cochrane, Calgary,
+and the surrounding area.
+Footer services list: Energy-Efficient Lighting Installation, Residential
+Electrical, Commercial Electrical, LED Retrofits & Upgrades, Electrical
+Troubleshooting & Repair
+Footer quick links: Home, About, Services, Service Areas, FAQ, Contact

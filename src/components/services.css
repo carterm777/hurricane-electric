@@ -1,0 +1,206 @@
+/* ── Services — Featured Spotlight with Secondary List / Glass Panel Cards ──
+   The spotlight image breaks the grid to the left of the card so the card
+   overlaps it: Grid-Breaking Oversized Image + Overlapping Bleeding Image.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.svc { position: relative; isolation: isolate; overflow: clip; }
+.svc-tex {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgb(244 241 234 / 0.03) 0 1px,
+      transparent 1px 7px
+    );
+  mask-image: linear-gradient(180deg, #000, transparent 42%);
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 42%);
+  pointer-events: none;
+}
+
+.svc-head { max-inline-size: 34rem; margin-block-end: var(--s-9); }
+
+/* ── Spotlight ─────────────────────────────────────────────────────────── */
+.svc-spot {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(0, 0.72fr);
+  align-items: center;
+  margin-block-end: clamp(2.5rem, 5vw, 5rem);
+}
+.svc-spot-figure {
+  position: relative;
+  grid-column: 1 / span 1;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--e-4);
+}
+.svc-spot-figure::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgb(10 14 19 / 0.28), transparent 55%);
+  pointer-events: none;
+}
+.svc-spot-img {
+  inline-size: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: center 58%;
+}
+
+.svc-spot-card {
+  grid-column: 2 / span 1;
+  margin-inline-start: clamp(-5rem, -4vw, -2rem);
+  padding: clamp(1.75rem, 2.6vw, 2.5rem);
+  display: grid;
+  gap: var(--s-4);
+  background:
+    linear-gradient(155deg, rgb(62 92 118 / 0.34), rgb(10 14 19 / 0.72));
+  border: 1px solid var(--glass-edge);
+  border-block-start: 1px solid var(--rule-accent);
+  border-radius: var(--r-md);
+  box-shadow: var(--e-glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.svc-spot-tag {
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semi);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+  color: var(--brand-accent);
+}
+.svc-spot-title { font-size: var(--fs-h3); font-weight: var(--w-semi); }
+.svc-spot-body { font-size: var(--fs-sm); color: var(--on-dark); line-height: var(--lh-body); }
+.svc-spot-list { display: grid; gap: var(--s-2); }
+.svc-spot-list li {
+  position: relative;
+  padding-inline-start: var(--s-5);
+  font-size: var(--fs-fine);
+  color: var(--on-dark-mute);
+  line-height: 1.45;
+}
+.svc-spot-list li::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0.55em;
+  inline-size: 10px;
+  block-size: 1px;
+  background: var(--brand-accent);
+}
+.svc-spot-cta { justify-self: start; margin-block-start: var(--s-2); }
+
+/* ── Secondary glass cards ─────────────────────────────────────────────── */
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-5);
+}
+.svc-cell { min-inline-size: 0; display: flex; }
+
+.svc-card {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  border: 1px solid var(--rule);
+  background: linear-gradient(170deg, rgb(62 92 118 / 0.20), rgb(10 14 19 / 0.40));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--e-2);
+  transition:
+    transform var(--hover-dur) var(--ease-out-cubic),
+    box-shadow var(--hover-dur) var(--ease-out-cubic),
+    border-color var(--hover-dur) var(--ease-out-cubic);
+}
+.svc-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--e-3);
+  border-color: var(--rule-accent);
+}
+
+.svc-card-media { position: relative; overflow: hidden; }
+.svc-card-img {
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: transform 620ms var(--ease-out-cubic);
+}
+.svc-card:hover .svc-card-img { transform: scale(1.06); }
+.svc-card-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgb(10 14 19 / 0.55));
+}
+
+.svc-card-body {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  flex: 1;
+  align-content: start;
+}
+.svc-card-title { font-size: var(--fs-h4); font-weight: var(--w-semi); }
+.svc-card-copy {
+  font-size: var(--fs-fine);
+  line-height: var(--lh-body);
+  color: var(--on-dark-mute);
+}
+
+/* Card Hover Reveal — the covered-work line slides up on hover */
+.svc-card-covers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-block-start: auto;
+  padding-block-start: var(--s-3);
+  border-block-start: 1px solid var(--rule);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--on-dark-faint);
+  opacity: 0.55;
+  transform: translateY(4px);
+  transition:
+    opacity var(--hover-dur) var(--ease-out-cubic),
+    transform var(--hover-dur) var(--ease-out-cubic),
+    color var(--hover-dur) var(--ease-out-cubic);
+}
+.svc-card-covers .lucide { width: 14px; height: 14px; }
+.svc-card:hover .svc-card-covers {
+  opacity: 1;
+  transform: none;
+  color: var(--brand-accent);
+}
+
+@media (max-width: 1080px) {
+  .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .svc-spot { grid-template-columns: minmax(0, 1fr); }
+  .svc-spot-figure { grid-column: 1; }
+  .svc-spot-card {
+    grid-column: 1;
+    margin-inline: var(--s-4) 0;
+    margin-block-start: calc(var(--s-8) * -1);
+  }
+  .svc-head { margin-block-end: var(--s-7); }
+}
+
+@media (max-width: 620px) {
+  .svc-grid { grid-template-columns: minmax(0, 1fr); }
+  .svc-spot-card { margin-inline: var(--s-3) 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-card:hover { transform: none !important; }
+  .svc-card:hover .svc-card-img { transform: none !important; }
+  .svc-card-covers { opacity: 1 !important; transform: none !important; }
+}

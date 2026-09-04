@@ -1,0 +1,115 @@
+/* ── Site-specific motion, CSS half ─────────────────────────────────────────
+   Pairs with motion-extra.js. Nothing here restates a kit primitive.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Star Rating Fill Animation on Scroll ───────────────────────────────── */
+.starsweep { display: inline-flex; align-items: center; gap: 3px; }
+.starsweep-cell { position: relative; display: block; line-height: 0; }
+.starsweep .lucide {
+  width: var(--star-size, 16px);
+  height: var(--star-size, 16px);
+  stroke-width: 1.4;
+}
+.starsweep-out { color: var(--rule-accent); fill: none; }
+.starsweep-fill {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  width: 0;
+  transition: width 320ms var(--ease-out-quart) var(--star-delay, 0ms);
+}
+.starsweep[data-in='true'] .starsweep-fill { width: 100%; }
+.starsweep-in { color: var(--brand-accent); fill: var(--brand-accent); }
+.starsweep--sm { --star-size: 14px; }
+.starsweep--md { --star-size: 17px; }
+.starsweep--lg { --star-size: 22px; }
+
+/* ── Banner Background Slow Pan ─────────────────────────────────────────── */
+@keyframes he-slow-pan {
+  0%   { transform: scale(1.08) translate3d(-1.4%, 0, 0); }
+  50%  { transform: scale(1.08) translate3d(1.4%, -0.8%, 0); }
+  100% { transform: scale(1.08) translate3d(-1.4%, 0, 0); }
+}
+[data-pan='on'] {
+  animation: he-slow-pan 34s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ── Multi-Step Progress Bar Transition ─────────────────────────────────── */
+.steprail {
+  display: flex;
+  gap: var(--s-2);
+  inline-size: 100%;
+}
+.steprail-seg {
+  position: relative;
+  flex: 1;
+  block-size: 2px;
+  background: var(--rule);
+  overflow: hidden;
+  border-radius: var(--r-pill);
+}
+.steprail-seg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--brand-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 520ms var(--ease-out-quart);
+}
+.steprail-seg[data-done='true']::after { transform: scaleX(1); }
+
+/* ── Step-by-Step Reveal — a 1:1 swap, never two steps at once ──────────── */
+@keyframes he-step-in {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+[data-step-panel] {
+  animation: he-step-in 420ms var(--ease-out-quart) both;
+}
+
+/* ── Success State Confirmation — a single drawn check, then a rise ─────── */
+@keyframes he-check-draw { to { stroke-dashoffset: 0; } }
+.checkdraw path,
+.checkdraw polyline,
+.checkdraw circle {
+  stroke-dasharray: 90;
+  stroke-dashoffset: 90;
+  animation: he-check-draw 620ms var(--ease-out-quart) 120ms forwards;
+}
+
+/* ── Coverage Zone Highlight on Hover ───────────────────────────────────── */
+.zone-node {
+  transition:
+    r 260ms var(--ease-out-cubic),
+    fill 260ms var(--ease-out-cubic),
+    opacity 260ms var(--ease-out-cubic);
+}
+.zone-halo {
+  fill-opacity: 0;
+  transition: fill-opacity 260ms var(--ease-out-cubic), r 300ms var(--ease-out-cubic);
+}
+
+/* ── Mega menu column stagger ───────────────────────────────────────────── */
+@keyframes he-menu-in {
+  from { opacity: 0; transform: translate3d(0, -8px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes he-menu-col {
+  from { opacity: 0; transform: translate3d(0, 6px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-pan='on'] { animation: none !important; }
+  .starsweep-fill { width: 100% !important; transition: none !important; }
+  [data-step-panel] { animation: none !important; }
+  .checkdraw path,
+  .checkdraw polyline,
+  .checkdraw circle {
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+  .steprail-seg::after { transition: none !important; }
+}

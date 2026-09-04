@@ -1,0 +1,354 @@
+/* ── Photo-diagnosis widget — Glass Panel Widget with Depth ────────────────
+   The most designed object on the page. Three real layers: the blurred glass
+   plate, the inset drop well, and the corner ticks that sit proud of both.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.pdx {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(160deg, rgb(62 92 118 / 0.30), rgb(16 22 29 / 0.62) 62%),
+    rgb(10 14 19 / 0.42);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--e-glass);
+  backdrop-filter: blur(22px) saturate(130%);
+  -webkit-backdrop-filter: blur(22px) saturate(130%);
+  --glow-size: 380px;
+  --glow-color: rgb(232 163 61 / 0.10);
+}
+.pdx::before {
+  /* the amber hairline that identifies this panel as the page's focal object */
+  content: '';
+  position: absolute;
+  inset-block-start: -1px;
+  inset-inline: 18%;
+  block-size: 1px;
+  background: linear-gradient(90deg, transparent, var(--brand-accent), transparent);
+  z-index: 2;
+}
+
+/* Corner ticks — a drafting mark, sitting proud of the glass */
+.pdx-tick {
+  position: absolute;
+  inline-size: 11px;
+  block-size: 11px;
+  border-color: var(--rule-accent);
+  border-style: solid;
+  border-width: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.pdx-tick--tl { inset-block-start: 9px; inset-inline-start: 9px; border-block-start-width: 1px; border-inline-start-width: 1px; }
+.pdx-tick--tr { inset-block-start: 9px; inset-inline-end: 9px; border-block-start-width: 1px; border-inline-end-width: 1px; }
+.pdx-tick--bl { inset-block-end: 9px; inset-inline-start: 9px; border-block-end-width: 1px; border-inline-start-width: 1px; }
+.pdx-tick--br { inset-block-end: 9px; inset-inline-end: 9px; border-block-end-width: 1px; border-inline-end-width: 1px; }
+
+.pdx-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-4);
+  position: relative;
+  z-index: 2;
+}
+.pdx-kicker {
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semi);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+  color: var(--brand-accent);
+  line-height: 1;
+}
+.pdx-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--w-semi);
+  letter-spacing: var(--tr-tight);
+  line-height: 1.15;
+  color: var(--on-dark-hi);
+  margin-block-start: var(--s-2);
+}
+.pdx-count {
+  font-family: var(--font-body);
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semi);
+  letter-spacing: var(--tr-label);
+  color: var(--on-dark-faint);
+  padding: 4px 8px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-pill);
+  flex: none;
+  white-space: nowrap;
+}
+
+.steprail { position: relative; z-index: 2; }
+
+.pdx-body { display: grid; gap: var(--s-4); position: relative; z-index: 2; }
+.pdx-panel { display: grid; gap: var(--s-4); }
+
+/* Drop well — inset, not raised: the one recessed surface on the page */
+.pdx-drop {
+  position: relative;
+  border-radius: var(--r-md);
+  border: 1px dashed var(--rule-strong);
+  background: rgb(10 14 19 / 0.40);
+  box-shadow: inset 0 2px 14px rgb(10 14 19 / 0.55);
+  overflow: hidden;
+  transition: border-color var(--d-base) var(--ease-out-cubic),
+              background-color var(--d-base) var(--ease-out-cubic);
+}
+.pdx-drop[data-dragging='true'] {
+  border-color: var(--brand-accent);
+  background: rgb(232 163 61 / 0.07);
+}
+.pdx-drop[data-has='true'] { border-style: solid; border-color: var(--rule-accent); }
+
+.pdx-drop-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  inline-size: 100%;
+  padding: var(--s-5);
+  text-align: start;
+  transition: background-color var(--d-base) var(--ease-out-cubic);
+}
+.pdx-drop-btn:hover { background: rgb(244 241 234 / 0.03); }
+.pdx-drop-icon {
+  display: grid;
+  place-items: center;
+  inline-size: 42px;
+  block-size: 42px;
+  flex: none;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--rule-accent);
+  color: var(--brand-accent);
+  background: var(--accent-wash-soft);
+}
+.pdx-drop-icon .lucide { width: var(--icon); height: var(--icon); }
+.pdx-drop-text { display: grid; gap: 5px; }
+.pdx-drop-lead {
+  font-size: var(--fs-sm);
+  font-weight: var(--w-med);
+  color: var(--on-dark-hi);
+  line-height: 1.35;
+}
+.pdx-drop-sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-micro);
+  color: var(--on-dark-faint);
+  line-height: 1.3;
+}
+.pdx-drop-sub .lucide { width: 12px; height: 12px; }
+
+.pdx-preview {
+  inline-size: 100%;
+  block-size: 132px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.pdx-preview-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  background: rgb(10 14 19 / 0.72);
+}
+.pdx-preview-name {
+  font-size: var(--fs-micro);
+  color: var(--on-dark-mute);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pdx-clear {
+  display: grid;
+  place-items: center;
+  inline-size: 24px;
+  block-size: 24px;
+  flex: none;
+  border-radius: var(--r-xs);
+  color: var(--on-dark-mute);
+  transition: color var(--d-fast) var(--ease-out-cubic),
+              background-color var(--d-fast) var(--ease-out-cubic);
+}
+.pdx-clear:hover { color: var(--brand-accent); background: var(--accent-wash); }
+.pdx-clear .lucide { width: 14px; height: 14px; }
+
+/* Fields */
+.pdx-field { display: grid; gap: 6px; }
+.pdx-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); }
+.pdx-label {
+  font-size: var(--fs-micro);
+  font-weight: var(--w-semi);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--on-dark-faint);
+}
+.pdx-input {
+  inline-size: 100%;
+  padding: 0.7rem 0.85rem;
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  color: var(--on-dark-hi);
+  background: rgb(10 14 19 / 0.42);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  transition: border-color var(--d-base) var(--ease-out-cubic),
+              box-shadow var(--d-base) var(--ease-out-cubic),
+              background-color var(--d-base) var(--ease-out-cubic);
+}
+.pdx-input::placeholder { color: var(--on-dark-faint); }
+.pdx-input:focus {
+  outline: none;
+  border-color: var(--rule-accent);
+  background: rgb(10 14 19 / 0.60);
+  box-shadow: 0 0 0 3px var(--accent-wash-soft);
+}
+.pdx-textarea { resize: none; line-height: 1.45; }
+
+.pdx-err {
+  font-size: var(--fs-micro);
+  color: var(--brand-accent);
+  line-height: 1.4;
+}
+
+.pdx-next {
+  margin-block-start: var(--s-1);
+  color: var(--brand-accent);
+  background: var(--accent-wash);
+  box-shadow: inset 0 0 0 1px var(--brand-accent);
+}
+.pdx-next:hover {
+  transform: translateY(-3px);
+  background: var(--brand-accent);
+  color: var(--brand-dark);
+  box-shadow: inset 0 0 0 1px var(--brand-accent), var(--e-2);
+}
+.pdx-next:active { transform: translateY(-1px); }
+
+/* Step 2 recap of what step 1 collected */
+.pdx-recap {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border-radius: var(--r-sm);
+  background: rgb(10 14 19 / 0.34);
+  border: 1px solid var(--rule);
+}
+.pdx-recap-thumb {
+  display: grid;
+  place-items: center;
+  inline-size: 40px;
+  block-size: 40px;
+  flex: none;
+  overflow: hidden;
+  border-radius: var(--r-xs);
+  background: var(--slate-wash);
+  color: var(--on-dark-faint);
+}
+.pdx-recap-thumb img { inline-size: 100%; block-size: 100%; object-fit: cover; }
+.pdx-recap-copy {
+  font-size: var(--fs-fine);
+  color: var(--on-dark-mute);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pdx-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+.pdx-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-fine);
+  color: var(--on-dark-mute);
+}
+.pdx-back .lucide { width: 14px; height: 14px; }
+.pdx-submit { flex: 1; --btn-x: 1.1rem; }
+.pdx-submit:disabled { opacity: 0.72; cursor: progress; }
+@keyframes pdx-spin { to { transform: rotate(360deg); } }
+.pdx-spin { animation: pdx-spin 900ms linear infinite; }
+
+.pdx-reassure { margin-block-start: var(--s-1); }
+
+/* Success state */
+.pdx-done { text-align: start; gap: var(--s-3); }
+.pdx-check {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--rule-accent);
+  background: var(--accent-wash);
+  color: var(--brand-accent);
+}
+.pdx-check .lucide { width: var(--icon); height: var(--icon); }
+.pdx-done-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--w-semi);
+  letter-spacing: var(--tr-tight);
+  color: var(--on-dark-hi);
+}
+.pdx-done-copy { font-size: var(--fs-sm); color: var(--on-dark); line-height: 1.55; }
+.pdx-done-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+  margin-block-start: var(--s-1);
+}
+.pdx-restart { font-size: var(--fs-fine); color: var(--on-dark-mute); }
+.pdx-demo-note {
+  font-size: var(--fs-micro);
+  color: var(--on-dark-faint);
+  border-block-start: 1px solid var(--rule);
+  padding-block-start: var(--s-3);
+}
+
+/* ── Compact initial state at the primary mobile breakpoint ───────────────
+   The drop well collapses to a single 62px row and the panel loses a step of
+   padding so the whole widget clears the 390x844 fold alongside the H1,
+   subheadline, badges and both CTAs. */
+@media (max-width: 900px) {
+  .pdx { padding: var(--s-4); gap: var(--s-3); border-radius: var(--r-md); }
+  .pdx-title { font-size: var(--fs-h4); margin-block-start: 5px; }
+  .pdx-drop-btn { padding: var(--s-3); gap: var(--s-3); }
+  .pdx-drop-icon { inline-size: 34px; block-size: 34px; }
+  .pdx-drop-icon .lucide { width: var(--icon-sm); height: var(--icon-sm); }
+  .pdx-drop-lead { font-size: var(--fs-fine); }
+  .pdx-drop-sub { display: none; }
+  .pdx-preview { block-size: 96px; }
+  .pdx-reassure { font-size: var(--fs-micro); line-height: 1.35; }
+  .pdx-count { padding: 3px 7px; }
+  .pdx-field { gap: 4px; }
+  .pdx-input { padding: 0.6rem 0.75rem; }
+  .pdx-body { gap: var(--s-3); }
+  .pdx-panel { gap: var(--s-3); }
+  .pdx-tick { inline-size: 8px; block-size: 8px; }
+}
+
+@media (max-width: 400px) {
+  .pdx-pair { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pdx-spin { animation: none !important; }
+}
