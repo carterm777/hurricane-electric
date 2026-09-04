@@ -31,9 +31,55 @@ export function useInView({
     // Elements taller than the viewport can never satisfy a % threshold, so
     // trigger those off a fixed band near their top edge instead.
     const tall = target.offsetHeight > window.innerHeight * 0.9
-    const io = new IntersectionObserver(
+
+    let raf = null
+    let live = true
+    let io = null
+
+    /* Safety net. An IntersectionObserver reports a CHANGE between two sampled
+       states, so a single large jump — an anchor link, a restored scroll
+       position, a flung touch scroll, an automated pass stepping in
+       viewport-sized hops — can move an element from below the root to above it
+       with no callback ever delivered. The element then sits at opacity 0 for
+       the rest of the session. Three separate builds reproduced this.
+
+       The predicate is monotonic (true once true) and re-checks the SAME
+       trigger point the observer uses, so the repo's Scroll Trigger Timing rule
+       still holds and nothing fires at first pixel. It runs on scroll, on
+       resize, and — critically — once on mount, because a jump that ends
+       without any further scrolling produces no events at all. */
+    const stop = () => {
+      if (!live) return
+      live = false
+      window.removeEventListener('scroll', onNet)
+      window.removeEventListener('resize', onNet)
+      window.removeEventListener('load', onNet)
+      document.removeEventListener('visibilitychange', onNet)
+      if (raf) { cancelAnimationFrame(raf); raf = null }
+      if (io) io.disconnect()
+    }
+    const check = () => {
+      raf = null
+      if (!live) return
+      const r = target.getBoundingClientRect()
+      const vh = window.innerHeight || 0
+      const line = tall ? vh * 0.75 : vh * 0.88
+      // in view past the trigger line, or already scrolled entirely past
+      /* The last block on the page can satisfy neither test: the document
+         runs out of scroll before its top reaches the trigger line, and it is
+         never scrolled past. Release anything still waiting once the viewport
+         has reached the end of the document. */
+      const atDocEnd = window.scrollY + vh >= document.documentElement.scrollHeight - 2
+      if (atDocEnd || r.bottom <= 0 || (r.top < line && r.bottom > 0)) {
+        setInView(true)
+        if (once) stop()
+      }
+    }
+    function onNet() { if (raf === null && live) raf = requestAnimationFrame(check) }
+
+    io = new IntersectionObserver(
       ([e]) => {
-        if (e.isIntersecting) { setInView(true); if (once) { io.unobserve(target); stopNet() } }
+        if (e.isIntersecting) { setInView(true); if (once) stop() }
         else if (!once) setInView(false)
       },
       tall
@@ -42,45 +88,21 @@ export function useInView({
     )
     io.observe(target)
 
-    /* Safety net. A fast programmatic scroll — the screenshot harness, a jump
-       to an anchor, a flung touch scroll — can leave an IntersectionObserver
-       notification undelivered, and the element then stays at opacity 0 for
-       the rest of the session. Verified empirically: roughly one section in
-       ten was stranded per full-page scroll pass. The observer stays primary;
-       this only re-checks the SAME trigger point (top edge 12% into the
-       viewport, matching the rootMargin above) and anything already scrolled
-       past. It never fires at first pixel. */
-    let raf = null
-    let netOn = true
-    const stopNet = () => {
-      if (!netOn) return
-      netOn = false
-      window.removeEventListener('scroll', onNet)
-      window.removeEventListener('resize', onNet)
-      if (raf) cancelAnimationFrame(raf)
-    }
-    function check() {
-      raf = null
-      if (!netOn) return
-      const r = target.getBoundingClientRect()
-      const vh = window.innerHeight || 0
-      const line = tall ? vh * 0.75 : vh * 0.88
-      if (r.bottom <= 0 || (r.top < line && r.bottom > 0)) {
-        setInView(true)
-        if (once) { io.unobserve(target); stopNet() }
-      }
-    }
-    function onNet() { if (raf === null) raf = requestAnimationFrame(check) }
     window.addEventListener('scroll', onNet, { passive: true })
     window.addEventListener('resize', onNet, { passive: true })
+    window.addEventListener('load', onNet)
+    document.addEventListener('visibilitychange', onNet)
+    onNet()                      // mount-time check: a jump may produce no events
+    const t = setTimeout(onNet, 400)   // and one after layout/fonts settle
 
-    return () => { io.disconnect(); stopNet() }
+    return () => { clearTimeout(t); stop() }
   }, [threshold, rootMargin, once, observeParent])
   return [ref, inView]
 }
 
+
 /* Techniques whose start state hides the element from IntersectionObserver. */
-const CLIPPED = new Set(['clip', 'wipe'])
+const CLIPPED = new Set(['clip', 'wipe', 'draw', 'draw-y', 'stroke'])
 
 /* Declarative entrance wrapper.
    technique: 'rise' | 'clip' | 'settle' | 'focus' | 'draw' | 'wipe' | 'fade'
@@ -278,7 +300,13 @@ export function useScrollY() {
 }
 
 export function useMediaQuery(query) {
-  const [matches, setMatches] = useState(false)
+  /* Seeded during the initial render, not in an effect. Starting at `false`
+     makes a phone paint the desktop branch on the first frame, which for a
+     hero widget that must clear the fold is the difference between passing
+     and failing. */
+  const [matches, setMatches] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(query).matches
+  )
   useEffect(() => {
     const mq = window.matchMedia(query)
     const on = (e) => setMatches(e.matches)
